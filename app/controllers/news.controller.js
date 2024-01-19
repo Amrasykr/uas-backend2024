@@ -136,14 +136,18 @@ exports.findByCategory = (req, res) => {
     // Temukan data berita berdasarkan kategori yang diberikan
     news.find({ category: category })
         .then(data => {
+            // Dapatkan total data
+            const totalData = data.length;
+
             // Jika tidak ada data, kirim respons dengan status 404 dan pesan "No news found for category: {category}"
-            if (data.length === 0) {
+            if (totalData === 0) {
                 res.status(404).send({ message: `No news found for category: ${category}` });
             } else {
-                // Jika ada data, kirim respons dengan status 200 dan data
-                res.status(200).send({ message: `Get All Resources in Category: ${category}`, data });
+                // Jika ada data, kirim respons dengan status 200, total data, pesan, dan data
+                res.status(200).send({ message: `Get All Resources in Category: ${category}`, totalData, data });
             }
         })
         .catch(err => res.status(500).send({ message: err.message }));
 };
+
 
